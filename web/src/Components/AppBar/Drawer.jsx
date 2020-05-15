@@ -69,7 +69,9 @@ export default function ClippedDrawer(props) {
                             "Politics",
                             "Sports",
                             "Tech",
-                            "Fashion"
+                            "Fashion",
+                            "World",
+                            "Education"
                         ].map((text, index) => (
                             <ListItem button key={text}>
                                 <ListItemIcon>
