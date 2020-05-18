@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen as uReq
-from Database.mongo import MongoRepository
+# from Database.mongo import MongoRepository
 
 client = MongoClient("mongodb://localhost:27017")
 db = client['NewsCluster']

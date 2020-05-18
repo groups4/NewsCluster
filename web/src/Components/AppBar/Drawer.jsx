@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -8,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
@@ -40,12 +42,27 @@ const useStyles = makeStyles(theme => ({
         textDecoration: "none",
         fontSize: "1.2em",
         color: "#121212",
-        fontWeight: "500"
+        fontWeight: "500",
+        textTransform: "capitalize"
     }
 }));
 
 export default function ClippedDrawer(props) {
     const classes = useStyles();
+    // const [drawer, setDrawer] = useState(props.isOpen);
+
+    var categories = [
+        "world",
+        // "india",
+        "sports",
+        "business",
+        // "entertainment",
+        // "health",
+        "lifestyle",
+        "auto",
+        // "crime",
+        "science"
+    ];
 
     return (
         <div className={classes.root}>
@@ -63,16 +80,7 @@ export default function ClippedDrawer(props) {
                 <Toolbar />
                 <div className={classes.drawerContainer}>
                     <List>
-                        {[
-                            "Home",
-                            "Latest",
-                            "Politics",
-                            "Sports",
-                            "Tech",
-                            "Fashion",
-                            "World",
-                            "Education"
-                        ].map((text, index) => (
+                        {categories.map((text, index) => (
                             <ListItem button key={text}>
                                 <ListItemIcon>
                                     {index % 2 === 0 ? (
@@ -83,17 +91,18 @@ export default function ClippedDrawer(props) {
                                 </ListItemIcon>
                                 {/* <ListItemText primary={text}> */}
                                 <a
-                                    href="#sports"
+                                    href={"#" + text}
                                     className={classes.linkDrawer}
+                                    onClick={props.toggleDrawer}
                                 >
-                                    {text}{" "}
+                                    {text}
                                 </a>
                                 {/* </ListItemText> */}
                             </ListItem>
                         ))}
                     </List>
                     <Divider />
-                    <List>
+                    {/* <List>
                         {["All mail", "Trash", "Spam"].map((text, index) => (
                             <ListItem button key={text}>
                                 <ListItemIcon>
@@ -106,7 +115,7 @@ export default function ClippedDrawer(props) {
                                 <ListItemText primary={text} />
                             </ListItem>
                         ))}
-                    </List>
+                    </List> */}
                 </div>
             </SwipeableDrawer>
             <main className={classes.content}>

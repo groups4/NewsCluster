@@ -1,21 +1,25 @@
-import React from "react";
-import logo from "./logo.svg";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.css";
 import NavBar from "./Components/AppBar/NavBar";
-import Drawer from "./Components/AppBar/Drawer";
-// import NewDrawer from "./Components/AppBar/NewDrawer";
 import Main from "./Components/News/Main";
-import Corousel from "./Components/Top_Stories";
+import Details from "./Components/Details";
 
-function App() {
+function App(props) {
+    const [detail, setDetail] = useState(false);
+
+    function toggleBack() {
+        setDetail(!detail);
+    }
+
     return (
         <div>
-            <NavBar>
-                <Corousel />
-                <Main />
-                {/* <Main /> */}
-                {/* <Main /> */}
-            </NavBar>
+            <Router>
+                <NavBar>
+                    <Route exact path="/" component={Main} />
+                    <Route path="/details/:id" component={Details} />
+                </NavBar>
+            </Router>
         </div>
     );
 }

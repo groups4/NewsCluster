@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useHistory, Link } from "react-router-dom";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -9,8 +10,8 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
 import Drawer from "./Drawer";
-
-const drawerWidth = 240;
+import BackIcon from "@material-ui/icons/ArrowBack";
+import { func } from "prop-types";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,10 +33,22 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ButtonAppBar(props) {
+    var his = useHistory();
+    var path = his.location.pathname;
+    var [state, setState] = useState(false);
+
+    useEffect(() => {
+        // var his = useHistory();
+        console.log(his);
+        path = his.location.pathname;
+    });
+
+    // console.log(path);
+    // console.log(props);
     const classes = useStyles();
     const [drawer, setDrawer] = useState(false);
-
-    const toggleDrawer = open => event => {
+    const [detail, setDetail] = useState(false);
+    const toggleDrawer = event => {
         if (
             event &&
             event.type === "keydown" &&
@@ -43,32 +56,56 @@ export default function ButtonAppBar(props) {
         ) {
             return;
         }
+        setDrawer(prevState => !prevState);
+    };
 
-        setDrawer(open);
+    const goBack = event => {
+        setState(!state);
+        his.goBack();
     };
 
     return (
         <div className={classes.root}>
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="menu"
-                        onClick={toggleDrawer(!drawer)}
-                    >
-                        {!drawer && <MenuIcon />}
-                        {drawer && <CloseIcon />}
-                        {/* <MenuIcon /> */}
-                    </IconButton>
+                    {!state && (
+                        <IconButton
+                            edge="start"
+                            className={classes.menuButton}
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={toggleDrawer}
+                        >
+                            {!drawer && <MenuIcon />}
+                            {drawer && <CloseIcon />}
+                            {/* <MenuIcon /> */}
+                        </IconButton>
+                    )}
+                    {state && (
+                        // <Link to="/">
+                        <IconButton
+                            edge="start"
+                            className={classes.menuButton}
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={goBack}
+                        >
+                            {<BackIcon />}
+                        </IconButton>
+                        // </Link>
+                    )}
+
                     <Typography variant="h6" className={classes.title}>
                         NewsCluster
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
-            <Drawer isOpen={drawer} children={props.children}></Drawer>
+            <Drawer
+                isOpen={drawer}
+                children={props.children}
+                toggleDrawer={toggleDrawer}
+            ></Drawer>
         </div>
     );
 }

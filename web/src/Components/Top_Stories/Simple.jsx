@@ -1,10 +1,12 @@
 import Carousel from "react-multi-carousel";
 import React from "react";
-import Article from "../News/Article";
+import Article from "./Article";
+import { useEffect, useState } from "react";
 import _ from "lodash";
 import "../News/main.scss";
 import "./style.css";
 import { isMobileOnly } from "react-device-detect";
+import axios from "axios";
 
 const responsive = {
     desktop: {
@@ -24,16 +26,24 @@ const responsive = {
     }
 };
 
-const articles = [
-    {
-        category: "News",
-        title: "Snow in Turkey Brings Travel Woes",
-        summary:
-            "Heavy snowstorm in Turkey creates havoc as hundreds of villages left without power, and hundreds of roads closed"
-    }
-];
-
 const Simple = props => {
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        axios
+            .get("/news/1")
+            .then(res => {
+                // console.log(res.data);
+                setData(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, []);
+
+    if (!data) {
+        return <h1>Loading</h1>;
+    }
+
     return (
         <div>
             <Carousel
@@ -49,8 +59,8 @@ const Simple = props => {
                 containerClass="carousel-container"
                 centerMode={!isMobileOnly}
             >
-                {_.times(5, i => (
-                    <Article key={i} details={articles[0]} />
+                {_.times(data.length, i => (
+                    <Article key={i} details={data[i]} />
                 ))}
             </Carousel>
         </div>
