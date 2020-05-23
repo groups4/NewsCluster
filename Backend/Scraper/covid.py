@@ -36,5 +36,3 @@ def scrape(url):
         db.covid.insert_one(row)
         if state == 'Total#':
             break
-
-scrape(url)
