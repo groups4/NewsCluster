@@ -13,13 +13,13 @@ routes = {
             'trending' : '/trending-news',
             'corona' : '/coronavirus-covid-19-outbreak', 
             'sports' : '/sports',
-            'cricket' : '/cricket',
+            'cricket' : '/cricketnext',
             'football' : '/football', 
             'auto' : '/auto',
             'india' : '/india',
             'technology' : '/technology', 
             'lifestyle' : '/lifestyle', 
-            'education' : '/education-today', 
+            'education' : '/education', 
             'business' : '/business',
             'science' : '/science',
             'world' : '/world',
@@ -27,11 +27,9 @@ routes = {
             'crime' : '/crime'
         }
 
-categories = ['home', 'trending', 'corona', 'sports', 'auto', 'cricket', 'football', 'india', 'technology','lifestyle', 'education', 'business', 'science', 'world', 'health', 'crime']
+categories = ['home', 'corona', 'sports', 'auto', 'cricket', 'football', 'india', 'lifestyle', 'education', 'business', 'politics', 'world']
 
-categories1 = ['sports', 'technology', 'lifestyle', 'education']
-categories2 = ['business', 'science', 'world', 'corona', 'trending', 'cricket', 'football', 'india', 'health', 'crime']
-url = "https://www.indiatoday.in"
+url = "https://www.news18.com"
 
 def getParser(url):
     try:
@@ -48,10 +46,10 @@ def insertDetails(url, category):
         return
 
     try:
-        title = news.select("h1")[0].text
-        summary = news.select(".story-kicker h2")[0].text
-        image = news.select(".stryimg img")[0]['data-src']
-        descriptions = news.select(".description p")
+        title = news.select(".article-box h1")[0].text
+        summary = news.select(".article-box h2")[0].text
+        image = news.select(".article-bimg img")[0]['src']
+        descriptions = news.select(".article-content-box p")
     except:
         return
 
@@ -60,7 +58,7 @@ def insertDetails(url, category):
         description += "\n\t" + para.text
     
     row = {
-        "src" : "IndiaToday",
+        "src" : "News18",
         "category" : category,
         "title" : title,
         "summary" : summary,
@@ -74,20 +72,25 @@ def scrape():
         try:
             if category == "home":
                 news = getParser(url)
-                stories = news.select(".top_stories_ordering ul li")
-
-            elif category in categories1:
-                news = getParser(url + routes[category])
-                stories = news.select(".special-top-news ul li")
+                stories = news.select(".lead-mstory li")
             
-            elif category in categories2:
+            elif category == "cricket":
                 news = getParser(url + routes[category])
-                stories = news.select(".catagory-listing")
+                stories = news.select(".newslist li")
+
+            else:
+                news = getParser(url + routes[category])
+                stories = news.select(".section-blog-left-img-list li")
+                stories = stories + news.select(".blog-list-blog")
+
         except:
             continue
-        print(category, len(stories))
+
+        # print(category, len(stories))
         for story in stories:
-                link = url + story.select("a")[0]['href']
+                link = story.select("a")[0]['href']
                 insertDetails(link, category)
 
+
         
+scrape()

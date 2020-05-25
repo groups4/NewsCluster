@@ -56,7 +56,7 @@ def insertDetails(url, category):
 
     description = ""
     for para in descriptions:
-        description += para.text
+        description += "\n\t" + para.text
 
     row = {
         "src" : "IndianExpress",
