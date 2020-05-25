@@ -7,9 +7,9 @@ export default function Article(props) {
     // console.log(props);
     var his = useHistory();
     const goDetail = () => {
-        console.log("Entered");
-        var path = "/details/" + props.details._id;
-        console.log(path);
+        // console.log("Entered");
+        // var path = "/details/" + props.details._id;
+        // console.log(path);
         // his.go("/details" + props._id);
         his.push("/details/" + props.details._id.$oid);
     };
@@ -38,7 +38,7 @@ export default function Article(props) {
                 <div className="hover">
                     <i className="ion-android-open"></i>
                 </div>
-                <Link to={"/details" + props._id}></Link>
+                <Link to={"/details" + props._id}>Hi</Link>
             </figure>
         </div>
         // </Link>

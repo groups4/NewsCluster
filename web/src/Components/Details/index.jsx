@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavBar from "../AppBar/NavBar";
 import axios from "axios";
 import "./style.scss";
+import Add from "../../config";
 import { Divider } from "@material-ui/core";
 
 export default function Details(props) {
@@ -9,11 +10,12 @@ export default function Details(props) {
     // console.log(props);
 
     useEffect(() => {
-        console.log();
-        const id = props.match.params.id;
+        // console.log();
+        const id = props.id;
         axios
-            .get("/singleNews/" + id)
+            .get("http://localhost:5000/singleNews/" + id)
             .then(res => {
+                console.log(res.data);
                 // console.log(res.data);
                 setArticle(res.data);
             })

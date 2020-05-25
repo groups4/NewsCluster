@@ -36,11 +36,12 @@ export default function ButtonAppBar(props) {
     var his = useHistory();
     var path = his.location.pathname;
     var [state, setState] = useState(false);
+    // console.log(props.isBack);
 
     useEffect(() => {
         // var his = useHistory();
-        console.log(his);
-        path = his.location.pathname;
+        // console.log(his);
+        // path = his.location.pathname;
     });
 
     // console.log(path);
@@ -68,7 +69,7 @@ export default function ButtonAppBar(props) {
         <div className={classes.root}>
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
-                    {!state && (
+                    {!props.isBack && (
                         <IconButton
                             edge="start"
                             className={classes.menuButton}
@@ -81,7 +82,7 @@ export default function ButtonAppBar(props) {
                             {/* <MenuIcon /> */}
                         </IconButton>
                     )}
-                    {state && (
+                    {props.isBack && (
                         // <Link to="/">
                         <IconButton
                             edge="start"

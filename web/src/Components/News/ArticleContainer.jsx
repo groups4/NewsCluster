@@ -8,13 +8,36 @@ import "./main.scss";
 
 export default function ArticleContainer(props) {
     const [articles, setArticles] = useState([]);
+    const [websites, setWebsites] = useState([]);
+
+    function cropList() {
+        // console.log(websites);
+        // console.log(websites);
+        var newArticles = articles.filter(article => {
+            if (websites.indexOf(article.src) != -1) {
+                return true;
+            }
+            return false;
+        });
+        // console.log(newArticles);
+        return newArticles;
+    }
 
     useEffect(() => {
         axios
-            .get("/news/" + props.title)
+            .get("http://localhost:5000/news/" + props.title)
             .then(res => {
                 // console.log(res.data);
                 setArticles(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+        axios
+            .get("http://localhost:5000/websites")
+            .then(res => {
+                setWebsites(res.data[0].websites);
             })
             .catch(err => {
                 console.log(err);
@@ -32,6 +55,7 @@ export default function ArticleContainer(props) {
 
     return (
         <div>
+            {/* {cropList()} */}
             {/* <div style={{ height: "1200px" }}></div> */}
             <h1
                 className="main-title"
@@ -48,11 +72,13 @@ export default function ArticleContainer(props) {
                         <Article2 details={article} />
                     </div>
                 ))} */}
-                {_.times(5, i => (
-                    <div key={i} className="column">
-                        <Article2 key={i} details={articles[i]} />
-                    </div>
-                ))}
+
+                {cropList().length != 0 &&
+                    _.times(5, i => (
+                        <div key={i} className="column">
+                            <Article2 key={i} details={cropList()[i]} />
+                        </div>
+                    ))}
             </div>
         </div>
     );

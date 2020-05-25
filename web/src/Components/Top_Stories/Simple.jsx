@@ -30,9 +30,9 @@ const Simple = props => {
     const [data, setData] = useState([]);
     useEffect(() => {
         axios
-            .get("/news/1")
+            .get("http://localhost:5000/news/1")
             .then(res => {
-                // console.log(res.data);
+                console.log(res.data);
                 setData(res.data);
             })
             .catch(err => {
@@ -40,7 +40,7 @@ const Simple = props => {
             });
     }, []);
 
-    if (!data) {
+    if (data.length == 0) {
         return <h1>Loading</h1>;
     }
 
@@ -59,7 +59,8 @@ const Simple = props => {
                 containerClass="carousel-container"
                 centerMode={!isMobileOnly}
             >
-                {_.times(data.length, i => (
+                {/* {console.log(data)} */}
+                {_.times(5, i => (
                     <Article key={i} details={data[i]} />
                 ))}
             </Carousel>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -102,20 +103,18 @@ export default function ClippedDrawer(props) {
                         ))}
                     </List>
                     <Divider />
-                    {/* <List>
-                        {["All mail", "Trash", "Spam"].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? (
-                                        <InboxIcon />
-                                    ) : (
-                                        <MailIcon />
-                                    )}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        ))}
-                    </List> */}
+                    <List>
+                        <ListItem>
+                            <Link
+                                to="/select"
+                                onClick={props.toggleDrawer}
+                                className={classes.linkDrawer}
+                                style={{ color: "#ee6352" }}
+                            >
+                                Select Websites
+                            </Link>
+                        </ListItem>
+                    </List>
                 </div>
             </SwipeableDrawer>
             <main className={classes.content}>

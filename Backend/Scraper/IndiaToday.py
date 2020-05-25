@@ -90,4 +90,4 @@ def scrape():
                 link = url + story.select("a")[0]['href']
                 insertDetails(link, category)
 
-        
+scrape()
