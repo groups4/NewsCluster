@@ -3,6 +3,7 @@ from flask_pymongo import PyMongo
 from flask_cors import CORS, cross_origin
 from bson.json_util import dumps
 from bson.objectid import ObjectId
+
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'

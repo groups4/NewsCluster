@@ -48,7 +48,7 @@ def insertDetails(url, category):
     totaldone += 1
     description = ""
     for para in descriptions:
-        description += para.text
+        description += "\n\t" + para.text
 
     row = {
         "src": "IndiaTV",
@@ -62,11 +62,10 @@ def insertDetails(url, category):
     db.news.insert_one(row)
 
 
-def scrape(url, categories):
-    total = 0
-    stories = []
+def scrape():
+ 
     for category in categories:
-        print(category)
+        stories = []
         try:
             if category == "home":
                 news = getParser(url)
@@ -85,13 +84,8 @@ def scrape(url, categories):
                 stories = news.select("ul.newsListfull li.p_news")
         except:
             continue
-
-        total += len(stories)
+        print(category, len(stories))
         for story in stories:
             link = story.select("a")[0]['href']
             insertDetails(link, category)
-    print(total)
 
-
-scrape(url, categories)
-print(totaldone)
